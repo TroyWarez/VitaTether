@@ -86,12 +86,6 @@ int lock = 1;
 int lock2 = 1;
 int timeoutVal = 3000;
 int main(){
-	// Exit early if running on PSTV
-	//int isPSTV = ksceSblAimgrIsDolce();
-	//if( isPSTV > 0)
-	//{
-		//return 1;
-	//}
 	  // Reduce CPU and GPU frequency to save battery
   	scePowerSetArmClockFrequency(41);
   	scePowerSetBusClockFrequency(55);
@@ -118,7 +112,7 @@ int main(){
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
-		sceKernelWaitSignal(0, 0, &timeoutVal)
+		sceKernelWaitSignal(0, 0, &timeoutVal);
 		return 1;
 	}
 	// Initializing Bluetooth
