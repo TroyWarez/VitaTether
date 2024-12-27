@@ -80,23 +80,13 @@ static int server_thread(unsigned int args, void* argp){
 	return 0;
 }
 
-vita2d_pgf* debug_font;
-uint32_t text_color;
-int lock = 1;
-int lock2 = 1;
+vita2d_pgf* debug_font = NULL;
+uint32_t text_color = 0x00;
+int lockPsButton = 1;
+int lockQuickMenu = 1;
+int lockUsbConnect = 1;
 int timeoutVal = 3000;
 int main(){
-	  // Reduce CPU and GPU frequency to save battery
-  	scePowerSetArmClockFrequency(41);
-  	scePowerSetBusClockFrequency(55);
-  	scePowerSetGpuClockFrequency(41);
-  	scePowerSetGpuXbarClockFrequency(83);
-
-	// Enabling analog and touch support
-	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
-	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
-	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
-	
 	// Initializing graphics stuffs
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
@@ -115,18 +105,32 @@ int main(){
 		sceKernelWaitSignal(0, 0, &timeoutVal);
 		return 1;
 	}
-	// Initializing Bluetooth
+	// Reduce CPU and GPU frequency to save battery
+  	scePowerSetArmClockFrequency(41);
+  	scePowerSetBusClockFrequency(55);
+  	scePowerSetGpuClockFrequency(41);
+  	scePowerSetGpuXbarClockFrequency(83);
+
+	// Enabling analog and touch support
+	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
+	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
+	
+	// TODO: Initializing Bluetooth
 
 	// Lock the PS Button and the quick menu
 	sceShellUtilInitEvents(0);
-	lock = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
-	lock2 = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
+	lockPsButton = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
+	lockQuickMenu = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
+	lockUsbConnect = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_USB_CONNECTION);
 	for (;;){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
 		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
-		vita2d_pgf_draw_text(debug_font, 2, 25, text_color, 1.0, lock ? "Failed to lock the homebutton." : "The homebutton is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 25, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 30, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 35, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
