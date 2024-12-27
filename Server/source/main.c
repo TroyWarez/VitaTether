@@ -49,9 +49,7 @@ static int server_thread(unsigned int args, void* argp){
 	PadPacket pkg;
 	ExtPadPacket ext_pkg;
 	for (;;){
-		if (client >= 0) {
 			connected = 1;
-			char unused[8];
 			for (;;){
 				sceCtrlPeekBufferPositive(0, &ext_pkg.pad, 1);
 				sceTouchPeek(SCE_TOUCH_PORT_FRONT, &ext_pkg.front, 1);
@@ -74,7 +72,6 @@ static int server_thread(unsigned int args, void* argp){
 					break;
 				}
 			}
-		}
 	}
 	
 	return 0;
@@ -142,7 +139,5 @@ int main(){
 			if ((pad.buttons & SCE_CTRL_CROSS) && (!(oldpad & SCE_CTRL_CROSS))) mode = (mode + 1) % 2;
 			oldpad = pad.buttons;
 		}*/
-		
-	}
 	
 }
