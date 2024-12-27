@@ -93,22 +93,15 @@ int main(){
 	debug_font = vita2d_load_default_pgf();
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 
-	// Lock PS Button
+	// Lock the PS Button (without warning symbol) 
 	int Event = sceShellUtilInitEvents(0);
 	lock = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
 	for (;;){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez\n");
-		if(lock > 0)
-		{
-			vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, "Failed to lock the homebutton.\n");
-		}
-		else
-		{
-			vita2d_pgf_draw_text(debug_font, 2, 60, text_color, 1.0, "The homebutton is now locked.\n");
-		}
+		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
+		vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, lock ? "Failed to lock the homebutton." : "The homebutton is now locked.");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
