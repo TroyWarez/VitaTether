@@ -79,7 +79,7 @@ static int server_thread(unsigned int args, void* argp){
 
 vita2d_pgf* debug_font;
 uint32_t text_color;
-
+int lock = 1;
 int main(){
 	
 	// Enabling analog and touch support
@@ -94,50 +94,23 @@ int main(){
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 
 	// Lock PS Button
-	int lock = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN);
-	int lock2 = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
-
+	int Event = sceShellUtilInitEvents(0);
+	lock = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
 	for (;;){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
-		vita2d_pgf_draw_textf(debug_font, 2, 200, text_color, 1.0, "Status: %s", lock ? "Failed to lock PS Button!" : "Locked PS Button sucessfully");
-		vita2d_pgf_draw_textf(debug_font, 2, 200, text_color, 1.0, "Status: %s", lock2 ? "Connected!" : "Locked PS Button 2 sucessfully");
-		//vita2d_pgf_draw_textf(debug_font, 2, 140, text_color, 1.0, "Mode: %s\nPress X to change mode", mode ? "Vita to PSTV" : "Vita to PC");
+		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez\n");
+		if(lock > 0)
+		{
+			vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, "Failed to lock the homebutton.\n");
+		}
+		else
+		{
+			vita2d_pgf_draw_text(debug_font, 2, 60, text_color, 1.0, "The homebutton is now locked.\n");
+		}
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
-		
-		/*if (!connected) {
-			SceCtrlData pad;
-			sceCtrlPeekBufferPositive(0, &pad, 1);
-			if ((pad.buttons & SCE_CTRL_CROSS) && (!(oldpad & SCE_CTRL_CROSS))) mode = (mode + 1) % 2;
-			oldpad = pad.buttons;
-		}*/
-		
 	}
-
-	// Starting server thread
-	//SceUID thread = sceKernelCreateThread("VitaTether Thread",&server_thread, 0x10000100, 0x10000, 0, 0, NULL);
-	//sceKernelStartThread(thread, 0, NULL);
-	//for (;;){
-		
-	//	vita2d_start_drawing();
-	//	vita2d_clear_screen();
-	//	vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaPad v.1.3 by Rinnegatamante");
-	//	vita2d_pgf_draw_textf(debug_font, 2, 60, text_color, 1.0, "Listening on:\nIP: %s\nPort: %d",vita_ip,GAMEPAD_PORT);
-		//vita2d_pgf_draw_textf(debug_font, 2, 140, text_color, 1.0, "Mode: %s\nPress X to change mode", mode ? "Vita to PSTV" : "Vita to PC");
-	//	vita2d_pgf_draw_textf(debug_font, 2, 200, text_color, 1.0, "Status: %s",connected ? "Connected!" : "Waiting connection...");
-	//	vita2d_end_drawing();
-	//	vita2d_wait_rendering_done();
-	//	vita2d_swap_buffers();
-		
-		/*if (!connected) {
-			SceCtrlData pad;
-			sceCtrlPeekBufferPositive(0, &pad, 1);
-			if ((pad.buttons & SCE_CTRL_CROSS) && (!(oldpad & SCE_CTRL_CROSS))) mode = (mode + 1) % 2;
-			oldpad = pad.buttons;
-		}*/
-	
 }
