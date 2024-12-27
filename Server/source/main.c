@@ -9,6 +9,7 @@
 #include <psp2/touch.h>
 #include <psp2/kernel/threadmgr.h>
 #include <psp2kern/bt.h>
+#include <psp2/shellutil.h> 
 
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
