@@ -93,18 +93,18 @@ int main(){
 	debug_font = vita2d_load_default_pgf();
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 	uint32_t error_text_color = RGBA8(0xFF, 0x00, 0x00, 0xFF);
-
-	if(vshSblAimgrIsGenuineDolce()) 
-	{
+	int batteryMv = scePowerGetVolt();
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 20, error_text_color, 2.0, "Fatal error: This app cannot run on the PSTV. Exiting in 3 seconds...");
+		//vita2d_pgf_draw_text(debug_font, 2, 20, error_text_color, 2.0, "Fatal error: This app cannot run on the PSTV. Exiting in 3 seconds...");
+		vita2d_pgf_draw_textf(debug_font, 2, 20, error_text_color, 2.0, "Battery milVoltage: %d", batteryMv);
+
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
 		sceKernelWaitSignal(0, 0, &timeoutVal);
 		return 1;
-	}
+
 	// Reduce CPU and GPU frequency to save battery
   	scePowerSetArmClockFrequency(41);
   	scePowerSetBusClockFrequency(55);
