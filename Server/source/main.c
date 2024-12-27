@@ -5,8 +5,6 @@
 #include <string.h>
 #include <psp2/ctrl.h>
 #include <psp2/types.h>
-#include <psp2/net/net.h> 
-#include <psp2/net/netctl.h>
 #include <psp2/sysmodule.h>
 #include <psp2/touch.h>
 #include <psp2/kernel/threadmgr.h>
@@ -51,15 +49,7 @@ static int server_thread(unsigned int args, void* argp){
 	// Initializing a PadPacket
 	PadPacket pkg;
 	ExtPadPacket ext_pkg;
-	
-	// Initializing a socket
-	int fd = sceNetSocket("VitaPad", SCE_NET_AF_INET, SCE_NET_SOCK_STREAM, 0);
-	SceNetSockaddrIn serveraddr;
-	serveraddr.sin_family = SCE_NET_AF_INET;
-	serveraddr.sin_addr.s_addr = sceNetHtonl(SCE_NET_INADDR_ANY);
-	serveraddr.sin_port = sceNetHtons(GAMEPAD_PORT);
-	sceNetBind(fd, (SceNetSockaddr *)&serveraddr, sizeof(serveraddr));
-	sceNetListen(fd, 128);
+
 	
 	for (;;){
 		SceNetSockaddrIn clientaddr;
