@@ -10,6 +10,7 @@
 #include <psp2/kernel/threadmgr.h>
 #include <psp2kern/bt.h>
 #include <psp2/shellutil.h> 
+#include <psp2/power.h>
 
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
@@ -80,8 +81,20 @@ static int server_thread(unsigned int args, void* argp){
 vita2d_pgf* debug_font;
 uint32_t text_color;
 int lock = 1;
+int lock2 = 1;
 int main(){
-	
+	// Exit early if running on PSTV
+	//int isPSTV = ksceSblAimgrIsDolce();
+	//if( isPSTV > 0)
+	//{
+		//return 1;
+	//}
+	  // Reduce CPU and GPU frequency to save battery
+  	scePowerSetArmClockFrequency(41);
+  	scePowerSetBusClockFrequency(55);
+  	scePowerSetGpuClockFrequency(41);
+  	scePowerSetGpuXbarClockFrequency(83);
+
 	// Enabling analog and touch support
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
@@ -93,9 +106,10 @@ int main(){
 	debug_font = vita2d_load_default_pgf();
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 
-	// Lock PS Button
-	int Event = sceShellUtilInitEvents(0);
+	// Lock the PS Button and the quick menu
+	sceShellUtilInitEvents(0);
 	lock = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
+	lock2 = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
 	for (;;){
 		
 		vita2d_start_drawing();

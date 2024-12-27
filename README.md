@@ -10,3 +10,4 @@ VitaTether allows you to use your PSVITA as a wireless controller tether to a pa
 
 ## Credits
 * VitaPad
+* VitaOxiPad
