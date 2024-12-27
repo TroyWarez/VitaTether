@@ -10,6 +10,8 @@
 #include <psp2/kernel/threadmgr.h>
 #include <psp2kern/bt.h>
 #include <psp2/shellutil.h> 
+#include <psp2/vshbridge.h>
+#include <psp2/kernel/threadmgr/signal.h>
 #include <psp2/power.h>
 
 #define PAD_PACKET_MODE     0
@@ -82,6 +84,7 @@ vita2d_pgf* debug_font;
 uint32_t text_color;
 int lock = 1;
 int lock2 = 1;
+int timeoutVal = 3000;
 int main(){
 	// Exit early if running on PSTV
 	//int isPSTV = ksceSblAimgrIsDolce();
@@ -105,6 +108,20 @@ int main(){
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
 	debug_font = vita2d_load_default_pgf();
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
+	uint32_t error_text_color = RGBA8(0xFF, 0x00, 0x00, 0xFF);
+
+	if(vshSblAimgrIsGenuineDolce()) 
+	{
+		vita2d_start_drawing();
+		vita2d_clear_screen();
+		vita2d_pgf_draw_text(debug_font, 2, 20, error_text_color, 2.0, "Fatal error: This app cannot run on the PSTV. Exiting in 3 seconds...");
+		vita2d_end_drawing();
+		vita2d_wait_rendering_done();
+		vita2d_swap_buffers();
+		sceKernelWaitSignal(0, 0, &timeoutVal)
+		return 1;
+	}
+	// Initializing Bluetooth
 
 	// Lock the PS Button and the quick menu
 	sceShellUtilInitEvents(0);
@@ -114,15 +131,8 @@ int main(){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez\n");
-		if(lock > 0)
-		{
-			vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, "Failed to lock the homebutton.\n");
-		}
-		else
-		{
-			vita2d_pgf_draw_text(debug_font, 2, 60, text_color, 1.0, "The homebutton is now locked.\n");
-		}
+		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
+		vita2d_pgf_draw_text(debug_font, 2, 25, text_color, 1.0, lock ? "Failed to lock the homebutton." : "The homebutton is now locked.");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
