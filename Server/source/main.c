@@ -11,7 +11,7 @@
 #include <psp2kern/bt.h>
 #include <psp2/shellutil.h> 
 #include <psp2/vshbridge.h>
-#include <psp2/kernel/threadmgr/signal.h>
+#include <psp2/kernel/processmgr.h> 
 #include <psp2/power.h>
 
 #define PAD_PACKET_MODE     0
@@ -86,7 +86,7 @@ int lockPsButton = 1;
 int lockQuickMenu = 1;
 int lockUsbConnect = 1;
 int timeoutVal = 3000;
-int main(){
+int main(int argc, char *argv[]){
 	// Initializing graphics stuffs
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
@@ -135,4 +135,5 @@ int main(){
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
 	}
+	sceKernelExitProcess(0);
 }
