@@ -8,7 +8,6 @@
 #include <psp2/sysmodule.h>
 #include <psp2/touch.h>
 #include <psp2/kernel/threadmgr.h>
-#include <psp2kern/bt.h>
 #include <psp2/shellutil.h> 
 #include <psp2/vshbridge.h>
 #include <psp2/kernel/processmgr.h> 
