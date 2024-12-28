@@ -84,7 +84,6 @@ uint32_t text_color = 0x00;
 int lockPsButton = 1;
 int lockQuickMenu = 1;
 int lockUsbConnect = 1;
-int timeoutVal = 3000;
 int main(int argc, char *argv[]){
 	// Initializing graphics stuffs
 	vita2d_init();
@@ -101,7 +100,7 @@ int main(int argc, char *argv[]){
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
-		sceKernelWaitSignal(0, 0, &timeoutVal);
+		sceKernelDelayThread(3000000);  // In microseconds
 		sceKernelExitProcess(1);
 		return 1;
 	}
