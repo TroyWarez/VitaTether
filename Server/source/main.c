@@ -15,6 +15,7 @@
 
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
+#define SCE_ERROR_ERRNO_ENOSYS 0x80010058
 
 // PadPacket struct
 typedef struct {

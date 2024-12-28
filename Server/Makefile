@@ -1,5 +1,5 @@
 TARGET		:= VitaTether
-TITLE		:= VPAD00001
+TITLE		:= VTETHER001
 SOURCES		:= source
 INCLUDES	:= include
 
