@@ -103,6 +103,7 @@ int main(int argc, char *argv[]){
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
 		sceKernelWaitSignal(0, 0, &timeoutVal);
+		sceKernelExitProcess(1);
 		return 1;
 
 	// Reduce CPU and GPU frequency to save battery
@@ -136,4 +137,5 @@ int main(int argc, char *argv[]){
 		vita2d_swap_buffers();
 	}
 	sceKernelExitProcess(0);
+	return 0;
 }
