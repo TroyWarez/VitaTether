@@ -129,10 +129,10 @@ int main(int argc, char *argv[]){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
-		vita2d_pgf_draw_text(debug_font, 2, 45, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 50, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 55, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
+		vita2d_pgf_draw_text(debug_font, 2, 40, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 60, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 80, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
