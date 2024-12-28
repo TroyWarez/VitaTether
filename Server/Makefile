@@ -4,7 +4,7 @@ SOURCES		:= source
 INCLUDES	:= include
 
 LIBS = -lvita2d -lSceLibKernel_stub -lSceSysmodule_stub -lSceCtrl_stub -lSceTouch_stub \
-	-lm -lSceNet_stub -lSceShellSvc_stub -lSceVshBridge_stub -lScePgf_stub \
+	-lm -lSceNet_stub -lSceShellSvc_stub -lSceSysmem_stub -lScePgf_stub \
 	-ljpeg -lfreetype -lc -lScePower_stub -lSceCommonDialog_stub -lSceProcessmgr_stub -lpng16 -lz \
 	-lSceGxm_stub -lSceDisplay_stub -lSceAppMgr_stub
 

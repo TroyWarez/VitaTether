@@ -9,13 +9,12 @@
 #include <psp2/touch.h>
 #include <psp2/kernel/threadmgr.h>
 #include <psp2/shellutil.h> 
-#include <psp2/vshbridge.h>
+#include <psp2/kernel/sysmem.h>
 #include <psp2/kernel/processmgr.h> 
 #include <psp2/power.h>
 
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
-#define SCE_ERROR_ERRNO_ENOSYS 0x80010058
 
 // PadPacket struct
 typedef struct {
@@ -93,18 +92,19 @@ int main(int argc, char *argv[]){
 	debug_font = vita2d_load_default_pgf();
 	uint32_t text_color = RGBA8(0xFF, 0xFF, 0xFF, 0xFF);
 	uint32_t error_text_color = RGBA8(0xFF, 0x00, 0x00, 0xFF);
-	int batteryMv = scePowerGetVolt();
-		vita2d_start_drawing();
+	int model = sceKernelGetModel();
+	if (sceKernelGetModel() == SCE_KERNEL_MODEL_VITATV)
+	{
+	    vita2d_start_drawing();
 		vita2d_clear_screen();
-		//vita2d_pgf_draw_text(debug_font, 2, 20, error_text_color, 2.0, "Fatal error: This app cannot run on the PSTV. Exiting in 3 seconds...");
-		vita2d_pgf_draw_textf(debug_font, 2, 20, error_text_color, 2.0, "Battery milVoltage: %d", batteryMv);
-
+		vita2d_pgf_draw_text(debug_font, 2, 40, error_text_color, 2.0, "Fatal error: This app cannot run on the VITA TV. Exiting in 3 seconds...");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
 		sceKernelWaitSignal(0, 0, &timeoutVal);
 		sceKernelExitProcess(1);
 		return 1;
+	}
 
 	// Reduce CPU and GPU frequency to save battery
   	scePowerSetArmClockFrequency(41);
@@ -119,6 +119,8 @@ int main(int argc, char *argv[]){
 	
 	// TODO: Initializing Bluetooth
 
+	// Signal the kernel here to start doing stuff
+	
 	// Lock the PS Button and the quick menu
 	sceShellUtilInitEvents(0);
 	lockPsButton = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
@@ -128,10 +130,10 @@ int main(int argc, char *argv[]){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
-		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
-		vita2d_pgf_draw_text(debug_font, 2, 25, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 30, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 35, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 40, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
+		vita2d_pgf_draw_text(debug_font, 2, 45, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 50, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 55, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
