@@ -5,8 +5,9 @@ VitaTether allows you to use your PSVITA as a wireless controller tether to a pa
 
 ## Usage
 
-* Install VPK file on PSVITA
-* Open VitaTether on PSVITA
+* Install VPK file on your PSVITA
+* Open VitaTether on your PSVITA
+* Connect a USB cable to your PSVITA and then to your PSTV
 
 ## Credits
 * VitaPad
