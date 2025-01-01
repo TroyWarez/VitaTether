@@ -21,7 +21,7 @@ if (NOT ${RELEASE})
 endif()
 
 add_executable(noled.elf
-	main.c
+	source/main.c
 )
 
 target_link_libraries(noled.elf
