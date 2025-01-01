@@ -121,18 +121,21 @@ int main(int argc, char *argv[]){
 	// Signal the kernel here to start doing stuff
 	
 	// Lock the PS Button and the quick menu
-	sceShellUtilInitEvents(0);
-	lockPsButton = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
-	lockQuickMenu = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
-	lockUsbConnect = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_USB_CONNECTION);
+
+	//sceShellUtilInitEvents(0);
+	//lockPsButton = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_PS_BTN_2);
+	//lockQuickMenu = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_QUICK_MENU);
+	//lockUsbConnect = sceShellUtilLock(SCE_SHELL_UTIL_LOCK_TYPE_USB_CONNECTION);
+	//vita2d_pgf_draw_text(debug_font, 2, 40, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
+	//vita2d_pgf_draw_text(debug_font, 2, 60, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
+	//vita2d_pgf_draw_text(debug_font, 2, 80, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
+
 	for (;;){
 		
 		vita2d_start_drawing();
 		vita2d_clear_screen();
 		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "VitaTether v.0.1 by TroyWarez");
-		vita2d_pgf_draw_text(debug_font, 2, 40, lockUsbConnect ? error_text_color : text_color, 1.0, lockPsButton ? "Failed to lock the homebutton." : "The homebutton is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 60, lockQuickMenu ? error_text_color : text_color, 1.0, lockQuickMenu ? "Failed to lock the quick menu." : "The quick menu is now locked.");
-		vita2d_pgf_draw_text(debug_font, 2, 80, lockUsbConnect ? error_text_color : text_color, 1.0, lockUsbConnect ? "Failed to lock USB connections." : "The USB connection is now locked.");
+		vita2d_pgf_draw_text(debug_font, 2, 20, text_color, 1.0, "Waiting for sync");
 		vita2d_end_drawing();
 		vita2d_wait_rendering_done();
 		vita2d_swap_buffers();
