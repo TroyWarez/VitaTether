@@ -2,6 +2,8 @@
 #include <string.h>
 #include <taihen.h>
 #include <psp2kern/kernel/modulemgr.h>
+#include <psp2kern/bt.h>
+#include <psp2/ctrl.h> 
 
 void _start() __attribute__ ((weak, alias ("module_start")));
 	

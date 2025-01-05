@@ -27,6 +27,8 @@ add_executable(noled.elf
 target_link_libraries(noled.elf
 	taihenForKernel_stub
 	SceLedForDriver_stub
+	SceCtrl_stub
+	SceBtForDriver_stub
 	ScePowerForDriver_stub
 	SceGpioForDriver_stub
 	)
