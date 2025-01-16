@@ -34,6 +34,7 @@ static uint8_t g_usb_attached = 2;
 static uint8_t g_exit_thread = 0;
 static uint8_t g_is_oled     = 0;
 static uint8_t g_is_lcd      = 0;
+static uint8_t g_is_vitatv   = 0;
 
 static uint8_t g_l2_pressed;
 static uint8_t g_r2_pressed;
@@ -899,6 +900,11 @@ uint ksceBtGetStatusForTest(int type, void *data, int size);
 
 int module_start(SceSize argc, const void *args)
 {
+  if (ksceSblAimgrIsGenuineDolce() > 0)
+  {
+    g_is_vitatv = 1;
+  }
+
   if (ksceKernelSearchModuleByName("SceLcd") >= 0)
   {
     g_is_lcd = 1;
@@ -910,6 +916,7 @@ int module_start(SceSize argc, const void *args)
 
   ksceKernelPrintf("is_lcd: %d\n", g_is_lcd);
   ksceKernelPrintf("is_oled: %d\n", g_is_oled);
+  ksceKernelPrintf("is_vitatv: %d\n", g_is_vitatv);
 
   if (g_is_oled)
   {
