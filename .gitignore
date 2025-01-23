@@ -56,3 +56,4 @@ module/build
 **.skprx
 Client/VitaTether
 .vscode
+module/include/device-name.h
