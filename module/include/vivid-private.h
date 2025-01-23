@@ -1,11 +1,13 @@
 #ifndef _VIVID_PRIVATE_H_
 #define _VIVID_PRIVATE_H_
 
-#ifndef DRIVER_ID
+#if defined __has_include
+#  if __has_include ("device-name.h")
 #include "device-name.h"
-#ifndef DRIVER_ID
-#endif
+#  endif
+#else
 #define DRIVER_ID "VIVID"
+#define 
 #endif
 
 #define USB_PID 0x0268 // ds3
