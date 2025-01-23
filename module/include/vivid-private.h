@@ -4,8 +4,10 @@
 # if defined __has_include
 #  if __has_include ("device-name.h")
 #include "device-name.h"
+# endif
 #else
 #define DRIVER_ID "VIVID"
+# endif
 # endif
 
 #endif
