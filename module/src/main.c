@@ -445,7 +445,7 @@ void usb_ep0_req_recv_on_complete(SceUdcdDeviceRequest *req)
       g_host_mac[3] = data[5];
       g_host_mac[4] = data[6];
       g_host_mac[5] = data[7];
-      // todo: save to config
+      saveBtAddress();
 
       break;
     case 0x03EF: // some pairing shit
