@@ -62,11 +62,12 @@ static int saveBtAddress(void)
 	if (fd < 0)
   {
     printf("Failed to save the bluetooth address as a file.");
-    return;
+		return 1;
   }
 
   ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
 	ksceIoClose(fd);
+  return 0;
 }
 
 static int loadBtAddress(void)
@@ -76,11 +77,12 @@ static int loadBtAddress(void)
 	if (fd < 0)
   {
     printf("Failed to load the bluetooth address as a file.");
-		return;
+		return 1;
   }
 
   ksceIoRead(fd, g_host_mac, sizeof(g_host_mac));
 	ksceIoClose(fd);
+  return 0;
 }
 
 static int sendDescHidReport(void)
@@ -974,7 +976,7 @@ int module_start(SceSize argc, const void *args)
   g_my_mac[4] = data[1];
   g_my_mac[5] = data[0];
 
-  // TODO: read host mac from config
+  loadBtAddress();
 
   return SCE_KERNEL_START_SUCCESS;
 }
