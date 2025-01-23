@@ -55,34 +55,32 @@ static uint16_t g_gyro_z = 0;
 
 static int g_prev_brightness;
 
-static int saveBtAddress(void)
+static void saveBtAddress(void)
 {
   	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
 		SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 6);
 	if (fd < 0)
   {
     printf("Failed to save the bluetooth address as a file.");
-		return 1;
+		return;
   }
 
   ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
 	ksceIoClose(fd);
-  return 0;
 }
 
-static int loadBtAddress(void)
+static void loadBtAddress(void)
 {
   	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
 		SCE_O_RDONLY, 6);
 	if (fd < 0)
   {
     printf("Failed to load the bluetooth address as a file.");
-		return 1;
+		return;
   }
 
   ksceIoRead(fd, g_host_mac, sizeof(g_host_mac));
 	ksceIoClose(fd);
-  return 0;
 }
 
 static int sendDescHidReport(void)
