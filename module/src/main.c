@@ -932,7 +932,7 @@ uint ksceBtGetStatusForTest(int type, void *data, int size);
 int module_start(SceSize argc, const void *args)
 {
   if (ksceSblAimgrIsGenuineDolce() > 0)
-  {
+  { 
     g_is_vitatv = 1;
   }
 

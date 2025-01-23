@@ -31,6 +31,7 @@ $(TARGET).vpk: $(TARGET).velf
 				  --add ./build/sce_sys/livearea/contents/bg.png=sce_sys/livearea/contents/bg.png \
 				  --add ./build/sce_sys/livearea/contents/startup.png=sce_sys/livearea/contents/startup.png \
 				  --add ./build/sce_sys/livearea/contents/template.xml=sce_sys/livearea/contents/template.xml \
+				  --add ./../../module/build/vividk.skprx=module/vividk.skprx \
 				  ./$(TARGET).vpk
 	
 %.velf: %.elf

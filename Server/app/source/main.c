@@ -18,7 +18,7 @@
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
 
-#define MOD_PATH "ux0:app/VTETHER01/BTH_ADDR"
+#define MOD_PATH "ux0:app/VTETHER01/module/vividk.skprx"
 
 // PadPacket struct
 typedef struct {
