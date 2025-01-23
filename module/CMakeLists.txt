@@ -30,6 +30,7 @@ target_link_libraries(${PROJECT_NAME}
   SceIofilemgrForDriver_stub 
   SceOledForDriver_stub_weak
   SceLcdForDriver_stub_weak
+  SceSblAIMgrForDriver_stub
   taihenForKernel_stub
 )
 
