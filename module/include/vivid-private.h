@@ -5,11 +5,10 @@
 #  if __has_include ("device-name.h")
 #include "device-name.h"
 # endif
-#else
-#define DRIVER_ID "VIVID"
-# endif
 # endif
 
+#ifndef DRIVER_ID
+#define DRIVER_ID "VIVID"
 #endif
 
 #define USB_PID 0x0268 // ds3
