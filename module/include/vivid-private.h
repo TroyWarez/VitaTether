@@ -3,6 +3,8 @@
 
 #define DRIVER_ID "VIVID"
 #define USB_PID 0x0268 // ds3
+#define BTH_ADDR_PATH "ux0:app/VTETHER01/"
+#define BTH_ADDR_FILE BTH_ADDR_PATH "BTH_ADDR"
 
 typedef struct
 {

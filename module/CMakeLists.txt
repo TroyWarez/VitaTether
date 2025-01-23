@@ -27,6 +27,7 @@ target_link_libraries(${PROJECT_NAME}
   SceThreadmgrForDriver_stub
   SceUdcdForDriver_stub
   SceBtForDriver_stub
+  SceIofilemgrForDriver_stub 
   SceOledForDriver_stub_weak
   SceLcdForDriver_stub_weak
   taihenForKernel_stub

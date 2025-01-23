@@ -12,6 +12,7 @@
 #include <psp2kern/kernel/threadmgr.h>
 #include <psp2kern/kernel/aimgr.h> 
 #include <psp2kern/udcd.h>
+#include <psp2kern/io/fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <taihen.h>
@@ -46,12 +47,41 @@ static uint8_t g_led_mask    = 0;
 static uint8_t g_my_mac[6]   = {0};
 static uint8_t g_host_mac[6] = {0};
 
+
 static uint16_t g_acc_x = 0;
 static uint16_t g_acc_y = 0;
 static uint16_t g_acc_z = 0;
 static uint16_t g_gyro_z = 0;
 
 static int g_prev_brightness;
+
+static int saveBtAddress(void)
+{
+  	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
+		SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 6);
+	if (fd < 0)
+  {
+    printf("Failed to save the bluetooth address as a file.");
+    return;
+  }
+
+  ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
+	ksceIoClose(fd);
+}
+
+static int loadBtAddress(void)
+{
+  	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
+		SCE_O_RDONLY, 6);
+	if (fd < 0)
+  {
+    printf("Failed to load the bluetooth address as a file.");
+		return;
+  }
+
+  ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
+	ksceIoClose(fd);
+}
 
 static int sendDescHidReport(void)
 {
@@ -416,6 +446,7 @@ void usb_ep0_req_recv_on_complete(SceUdcdDeviceRequest *req)
       g_host_mac[4] = data[6];
       g_host_mac[5] = data[7];
       // todo: save to config
+
       break;
     case 0x03EF: // some pairing shit
       ef_request = data[6];
