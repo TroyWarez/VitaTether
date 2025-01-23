@@ -61,7 +61,7 @@ static void saveBtAddress(void)
 		SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 6);
 	if (fd < 0)
   {
-    printf("Failed to save the bluetooth address as a file.");
+    ksceKernelPrintf("Failed to save the bluetooth address as a file.");
 		return;
   }
 
@@ -75,7 +75,7 @@ static void loadBtAddress(void)
 		SCE_O_RDONLY, 6);
 	if (fd < 0)
   {
-    printf("Failed to load the bluetooth address as a file.");
+    ksceKernelPrintf("Failed to load the bluetooth address as a file.");
 		return;
   }
 
