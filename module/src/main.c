@@ -79,7 +79,7 @@ static int loadBtAddress(void)
 		return;
   }
 
-  ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
+  ksceIoRead(fd, g_host_mac, sizeof(g_host_mac));
 	ksceIoClose(fd);
 }
 
