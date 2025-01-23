@@ -2,6 +2,8 @@
 #include "vivid-private.h"
 #include "vivid-user.h"
 
+
+
 #include <psp2kern/ctrl.h>
 #include <psp2kern/kernel/cpu.h>
 #include <psp2kern/kernel/debug.h>
