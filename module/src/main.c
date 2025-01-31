@@ -31,6 +31,10 @@ static SceUID g_usb_thread_id;
 static SceUID g_event_flag_id;
 static uint8_t g_usb_attached = 2;
 
+static SceUID g_bt_thread_id;
+static SceUID g_event_bt_flag_id;
+static uint8_t g_usb_attached = 2;
+
 static uint8_t g_exit_thread = 0;
 static uint8_t g_is_oled     = 0;
 static uint8_t g_is_lcd      = 0;
