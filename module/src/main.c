@@ -12,7 +12,7 @@
 #include <psp2kern/kernel/suspend.h>
 #include <psp2kern/kernel/sysmem.h>
 #include <psp2kern/kernel/threadmgr.h>
-#include <psp2kern/kernel/aimgr.h> 
+#include <psp2kern/kernel/aimgr.h>  
 #include <psp2kern/udcd.h>
 #include <psp2kern/io/fcntl.h>
 #include <stdio.h>
