@@ -2,6 +2,8 @@
 #include "vivid-private.h"
 #include "vivid-user.h"
 
+
+
 #include <psp2kern/ctrl.h>
 #include <psp2kern/kernel/cpu.h>
 #include <psp2kern/kernel/debug.h>
@@ -10,8 +12,9 @@
 #include <psp2kern/kernel/suspend.h>
 #include <psp2kern/kernel/sysmem.h>
 #include <psp2kern/kernel/threadmgr.h>
-#include <psp2kern/kernel/aimgr.h> 
+#include <psp2kern/kernel/aimgr.h>  
 #include <psp2kern/udcd.h>
+#include <psp2kern/io/fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <taihen.h>
@@ -50,12 +53,41 @@ static uint8_t g_led_mask    = 0;
 static uint8_t g_my_mac[6]   = {0};
 static uint8_t g_host_mac[6] = {0};
 
+
 static uint16_t g_acc_x = 0;
 static uint16_t g_acc_y = 0;
 static uint16_t g_acc_z = 0;
 static uint16_t g_gyro_z = 0;
 
 static int g_prev_brightness;
+
+static void saveBtAddress(void)
+{
+  	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
+		SCE_O_WRONLY | SCE_O_CREAT | SCE_O_TRUNC, 6);
+	if (fd < 0)
+  {
+    ksceKernelPrintf("Failed to save the bluetooth address as a file.");
+		return;
+  }
+
+  ksceIoWrite(fd, g_host_mac, sizeof(g_host_mac));
+	ksceIoClose(fd);
+}
+
+static void loadBtAddress(void)
+{
+  	SceUID fd = ksceIoOpen(BTH_ADDR_FILE,
+		SCE_O_RDONLY, 6);
+	if (fd < 0)
+  {
+    ksceKernelPrintf("Failed to load the bluetooth address as a file.");
+		return;
+  }
+
+  ksceIoRead(fd, g_host_mac, sizeof(g_host_mac));
+	ksceIoClose(fd);
+}
 
 static int sendDescHidReport(void)
 {
@@ -419,7 +451,8 @@ void usb_ep0_req_recv_on_complete(SceUdcdDeviceRequest *req)
       g_host_mac[3] = data[5];
       g_host_mac[4] = data[6];
       g_host_mac[5] = data[7];
-      // todo: save to config
+      saveBtAddress();
+
       break;
     case 0x03EF: // some pairing shit
       ef_request = data[6];
@@ -905,7 +938,7 @@ uint ksceBtGetStatusForTest(int type, void *data, int size);
 int module_start(SceSize argc, const void *args)
 {
   if (ksceSblAimgrIsGenuineDolce() > 0)
-  {
+  { 
     g_is_vitatv = 1;
   }
 
@@ -947,7 +980,7 @@ int module_start(SceSize argc, const void *args)
   g_my_mac[4] = data[1];
   g_my_mac[5] = data[0];
 
-  // TODO: read host mac from config
+  loadBtAddress();
 
   return SCE_KERNEL_START_SUCCESS;
 }

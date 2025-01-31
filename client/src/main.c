@@ -11,10 +11,14 @@
 #include <psp2/shellutil.h> 
 #include <psp2/kernel/sysmem.h>
 #include <psp2/kernel/processmgr.h> 
+#include <psp2/vshbridge.h>
 #include <psp2/power.h>
+#include <taihen.h>
 
 #define PAD_PACKET_MODE     0
 #define EXT_PAD_PACKET_MODE 1
+
+#define MOD_PATH "ux0:app/VTETHER01/module/vividk.skprx"
 
 // PadPacket struct
 typedef struct {
@@ -85,6 +89,17 @@ int lockPsButton = 1;
 int lockQuickMenu = 1;
 int lockUsbConnect = 1;
 int main(int argc, char *argv[]){
+	int search_param[2];
+  	SceUID res = _vshKernelSearchModuleByName("vividk", search_param);
+	if (res <= 0)
+  	{
+	SceUID mod_id;
+    mod_id = taiLoadStartKernelModule(MOD_PATH, 0, NULL, 0);
+    sceClibPrintf("0x%08x\n", mod_id);
+    sceKernelDelayThread(1000000);
+    sceAppMgrLoadExec("app0:eboot.bin", NULL, NULL);
+ 	}
+
 	// Initializing graphics stuffs
 	vita2d_init();
 	vita2d_set_clear_color(RGBA8(0x00, 0x00, 0x00, 0xFF));
@@ -115,8 +130,7 @@ int main(int argc, char *argv[]){
 	sceCtrlSetSamplingMode(SCE_CTRL_MODE_ANALOG_WIDE);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_FRONT, 1);
 	sceTouchSetSamplingState(SCE_TOUCH_PORT_BACK, 1);
-	
-	// TODO: Initializing Bluetooth
+
 
 	// Signal the kernel here to start doing stuff
 	

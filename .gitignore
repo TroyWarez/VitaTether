@@ -54,5 +54,6 @@ module/build
 **.vpk
 **.bin
 **.skprx
-Client/VitaTether
 .vscode
+module/include/device-name.h
+build

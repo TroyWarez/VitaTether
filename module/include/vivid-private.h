@@ -1,8 +1,19 @@
 #ifndef _VIVID_PRIVATE_H_
 #define _VIVID_PRIVATE_H_
 
+# if defined __has_include
+#  if __has_include ("device-name.h")
+#include "device-name.h"
+# endif
+# endif
+
+#ifndef DRIVER_ID
 #define DRIVER_ID "VIVID"
+#endif
+
 #define USB_PID 0x0268 // ds3
+#define BTH_ADDR_PATH "ux0:app/VTETHER01/"
+#define BTH_ADDR_FILE BTH_ADDR_PATH "BTH_ADDR"
 
 typedef struct
 {

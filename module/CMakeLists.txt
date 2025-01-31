@@ -8,7 +8,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-project(vividk)
+project(VitaTetherK)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 add_executable(${PROJECT_NAME}
@@ -27,8 +27,10 @@ target_link_libraries(${PROJECT_NAME}
   SceThreadmgrForDriver_stub
   SceUdcdForDriver_stub
   SceBtForDriver_stub
+  SceIofilemgrForDriver_stub 
   SceOledForDriver_stub_weak
   SceLcdForDriver_stub_weak
+  SceSblAIMgrForDriver_stub
   taihenForKernel_stub
 )
 
@@ -39,15 +41,15 @@ set_target_properties(${PROJECT_NAME}
 )
 
 vita_create_self(${PROJECT_NAME}.skprx ${PROJECT_NAME}
-  CONFIG vividk.yml
+  CONFIG vitatetherk.yml
   UNSAFE
 )
 
-vita_create_stubs(stubs vividk ${CMAKE_CURRENT_SOURCE_DIR}/vividk.yml KERNEL)
+vita_create_stubs(stubs VitaTetherK ${CMAKE_CURRENT_SOURCE_DIR}/vitatetherk.yml KERNEL)
 
-add_custom_target(vividk_all
+add_custom_target(VitaTetherK_all
   ALL
-  DEPENDS vividk.skprx-self
-  DEPENDS libvividk_stub.a
-  DEPENDS libvividk_stub_weak.a
+  DEPENDS VitaTetherK.skprx-self
+  DEPENDS libVitaTetherK_stub.a
+  DEPENDS libVitaTetherK_stub_weak.a
 )
