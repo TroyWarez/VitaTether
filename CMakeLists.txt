@@ -8,7 +8,7 @@ if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
   endif()
 endif()
 
-project(vivid)
+project(VitaTether)
 include("${VITASDK}/share/vita.cmake" REQUIRED)
 
 set(VITA_APP_NAME "VitaTether")
@@ -27,7 +27,7 @@ add_executable(${PROJECT_NAME}
   client/src/main.c
 )
 
-add_dependencies(${PROJECT_NAME} "vividk_all")
+add_dependencies(${PROJECT_NAME} "VitaTetherK_all")
 
 target_link_libraries(${PROJECT_NAME}
   vita2d
@@ -60,5 +60,5 @@ vita_create_vpk(${PROJECT_NAME}.vpk ${VITA_TITLEID} ${PROJECT_NAME}.self
   VERSION ${VITA_VERSION}
   NAME ${VITA_APP_NAME}
   FILE sce_sys sce_sys
-  FILE ${CMAKE_CURRENT_BINARY_DIR}/module/vividk.skprx module/vividk.skprx
+  FILE ${CMAKE_CURRENT_BINARY_DIR}/module/VitaTetherK.skprx module/VitaTetherK.skprx
 )
